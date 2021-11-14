@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<title></title>
+	<style type="text/css">
+		#final-list {
+			display: grid;
+			grid-template-columns: 300px;	
+		}
+		.item {
+			border: 1px solid black;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<input type="" name="" id="name-filter" oninput="updateList()" autofocus/>
+	<div id="final-list">
+		
+	</div>
+	<div id="item-template" style="display: none;">
+		<span class="name"></span>
+		<ul class="ingredients"></ul>
+	</div>
+	<script type="text/javascript">
+		DATA = {"Ammonia": {"Hydrogen": 1.0, "Nitrogen": 3.0}, "Diethylamine": {"Hydrogen": 4.0, "Nitrogen": 12.0, "Ethanol": 3.0}, "FoamingAgent": {"Lithium": 1.0, "Hydrogen": 1.0}, "PolytrinicAcid": {"SulfuricAcid": 1.0, "Chlorine": 1.0, "Potassium": 1.0}, "FluorosulfuricAcid": {"Fluorine": 1.0, "Hydrogen": 1.0, "Potassium": 1.0, "SulfuricAcid": 1.0}, "TableSalt": {"Chlorine": 1.0, "Sodium": 1.0}, "Thermite": {"Iron": 1.0, "Aluminium": 1.0, "Oxygen": 1.0}, "UnstableMutagen": {"Radium": 1.0, "Phosphorus": 1.0, "Chlorine": 1.0}, "Water": {"Hydrogen": 1.0, "Oxygen": 1.0}, "Oil": {"WeldingFuel": 1.0, "Carbon": 1.0, "Hydrogen": 1.0}, "Fluorosurfactant": {"Carbon": 1.0, "Fluorine": 1.0, "SulfuricAcid": 2.0}, "Meth": {"WeldingFuel": 36.0, "Carbon": 3.0, "Hydrogen": 32.0, "Sugar": 12.0, "Nitrogen": 96.0, "Ethanol": 24.0, "Iodine": 3.0, "Phosphorus": 3.0}, "Ephedrine": {"WeldingFuel": 9.0, "Carbon": 9.0, "Hydrogen": 8.0, "Sugar": 3.0, "Nitrogen": 24.0, "Ethanol": 6.0}, "Alkycosine": {"Chlorine": 5.0, "Nitrogen": 3.0, "Silicon": 3.0, "Potassium": 3.0, "Sodium": 5.0, "Hydrogen": 10.0, "Oxygen": 5.0}, "Alkysine": {"Chlorine": 1.0, "Nitrogen": 3.0, "Silicon": 3.0, "Potassium": 3.0}, "Dylovene": {"Silicon": 1.0, "Nitrogen": 1.0, "Potassium": 1.0}, "Arithrazine": {"Radium": 2.0, "Silicon": 6.0, "Nitrogen": 6.0, "Potassium": 6.0, "Hydrogen": 1.0}, "Bicaridine": {"Oxygen": 3.0, "Carbon": 1.0, "Glucose": 3.0}, "Cryoxadone": {"Oxygen": 1.0, "Plasma": 0, "Hydrogen": 2.0}, "Clonexadone": {"Oxygen": 3.0, "Plasma": 0, "Hydrogen": 6.0, "Sodium": 1.0}, "Citalopram": {"Silicon": 9.0, "Hydrogen": 3.0, "Nitrogen": 9.0, "Potassium": 9.0, "Carbon": 1.0}, "Dermaline": {"Silicon": 2.0, "Carbon": 2.0, "Oxygen": 1.0, "Phosphorus": 1.0}, "Dexalin": {"Oxygen": 1.0, "Plasma": 0}, "DexalinPlus": {"Oxygen": 3.0, "Plasma": 0, "Carbon": 2.0, "Iron": 2.0}, "Ethylredoxrazine": {"Oxygen": 1.0, "Silicon": 3.0, "Nitrogen": 3.0, "Potassium": 3.0, "Carbon": 1.0}, "Hyperzine": {"Glucose": 1.0, "Phosphorus": 1.0, "Sulfur": 1.0}, "Hyronalin": {"Radium": 1.0, "Silicon": 3.0, "Nitrogen": 3.0, "Potassium": 3.0}, "Imidazoline": {"Hydrogen": 1.0, "Carbon": 1.0, "Silicon": 3.0, "Nitrogen": 3.0, "Potassium": 3.0}, "Inacusiate": {"Silicon": 3.0, "Nitrogen": 3.0, "Potassium": 3.0, "Carbon": 1.0, "Hydrogen": 2.0, "Oxygen": 2.0}, "Inaprovaline": {"Oxygen": 1.0, "Carbon": 1.0, "Glucose": 1.0}, "Kelotane": {"Silicon": 1.0, "Carbon": 1.0}, "Leporazine": {"Silicon": 1.0, "Copper": 1.0, "Plasma": 0}, "Methylin": {"Hydrogen": 1.0, "Chlorine": 1.0, "Ethanol": 1.0, "Fluorine": 0}, "Oxycodone": {"Ethanol": 3.0, "Oxygen": 3.0, "Carbon": 9.0, "Glucose": 9.0, "Plasma": 1.0}, "Phalanximine": {"Radium": 3.0, "Silicon": 6.0, "Nitrogen": 6.0, "Potassium": 6.0, "Ethanol": 1.0, "Phosphorus": 3.0, "Chlorine": 3.0}, "Paroxetine": {"Silicon": 3.0, "Hydrogen": 1.0, "Nitrogen": 3.0, "Potassium": 3.0, "Oxygen": 1.0, "Carbon": 1.0, "Glucose": 1.0}, "Ryetalyn": {"Radium": 4.0, "Silicon": 12.0, "Nitrogen": 12.0, "Potassium": 12.0, "Hydrogen": 2.0, "Carbon": 1.0}, "Spaceacillin": {"Potassium": 1.0, "Oxygen": 1.0, "Glucose": 1.0, "Carbon": 1.0}, "Synaptizine": {"Lithium": 1.0, "Glucose": 1.0, "Hydrogen": 2.0, "Oxygen": 2.0}, "Tramadol": {"Oxygen": 1.0, "Carbon": 3.0, "Glucose": 3.0, "Ethanol": 1.0}, "Tricordrazine": {"Oxygen": 1.0, "Carbon": 1.0, "Glucose": 1.0, "Silicon": 1.0, "Nitrogen": 1.0, "Potassium": 1.0}, "Vaccine": {"Aluminium": 1.0, "Glucose": 1.0, "Hydrogen": 2.0, "Oxygen": 2.0}, "Albuterol": {"Glucose": 3.0, "Phosphorus": 1.0, "Sulfur": 1.0, "Oxygen": 1.0, "Carbon": 3.0, "Ethanol": 1.0}, "ChloralHydrate": {"Ethanol": 3.0, "Chlorine": 1.0, "Hydrogen": 6.0, "Oxygen": 6.0}, "Creatine": {"Oxygen": 6.0, "Carbon": 2.0, "Glucose": 3.0, "Phosphorus": 3.0, "Sulfur": 3.0, "Nutriment": 1.0, "Radium": 3.0, "Chlorine": 3.0}, "Cryptobiolin": {"Potassium": 1.0, "Oxygen": 1.0, "Glucose": 1.0}, "HeartbreakerToxin": {"Oxygen": 1.0, "Plasma": 0, "Silicon": 6.0, "Hydrogen": 2.0, "Nitrogen": 6.0, "Potassium": 6.0}, "Impedrezene": {"Mercury": 1.0, "Oxygen": 1.0, "Glucose": 1.0}, "Lexorin": {"Hydrogen": 4.0, "Nitrogen": 12.0, "Plasma": 3.0}, "Lipozine": {"Chlorine": 2.0, "Sodium": 2.0, "Ethanol": 1.0, "Radium": 1.0}, "MindbreakerToxin": {"Silicon": 3.0, "Hydrogen": 1.0, "Nitrogen": 3.0, "Potassium": 3.0}, "Soporific": {"Ethanol": 12.0, "Chlorine": 4.0, "Hydrogen": 24.0, "Oxygen": 24.0, "Glucose": 3.0}, "Sterilizine": {"Ethanol": 1.0, "Silicon": 3.0, "Nitrogen": 3.0, "Potassium": 3.0, "Chlorine": 1.0}, "SpaceDrugs": {"Mercury": 1.0, "Glucose": 1.0, "Lithium": 1.0}, "Bleach": {"Chlorine": 1.0, "Sodium": 1.0, "Hydrogen": 2.0, "Nitrogen": 4.0, "Oxygen": 1.0}, "SpaceCleaner": {"Hydrogen": 1.0, "Nitrogen": 2.0, "Oxygen": 1.0}, "SpaceLube": {"Hydrogen": 2.0, "Oxygen": 1.0, "Silicon": 1.0}, "EZNutrient": {"Nitrogen": 1.0, "Phosphorus": 1.0, "Potassium": 1.0}, "RobustHarvest": {"Nitrogen": 1.0, "Phosphorus": 1.0, "Potassium": 1.0, "SulfuricAcid": 0}, "Left4Zed": {"Nitrogen": 1.0, "Phosphorus": 1.0, "Potassium": 1.0, "Radium": 0}, "PlantBGone": {"Toxin": 2.0, "Hydrogen": 1.0, "Oxygen": 1.0}, "Antifreeze": {"Cream": 2.0, "Ice": 2.0, "Vodka": 1.0}, "AtomicBomb": {"Cognac": 3.0, "Ale": 6.0, "Cream": 18.0, "Whiskey": 9.0, "Kahlua": 3.0, "Uranium": 10.0}, "B52": {"Cognac": 1.0, "Ale": 2.0, "Cream": 6.0, "Whiskey": 3.0, "Kahlua": 1.0}, "BananaHonk": {"Cream": 1.0, "JuiceBanana": 1.0, "Sugar": 1.0}, "BeepskySmash": {"Iron": 1.0, "JuiceLime": 1.0, "Whiskey": 1.0}, "Bilk": {"Beer": 1.0, "Milk": 1.0}, "BlackRussian": {"Kahlua": 2.0, "Vodka": 1.0}, "BloodyMary": {"JuiceLime": 6.0, "JuiceTomato": 2.0, "Vodka": 3.0}, "Booger": {"Cream": 1.0, "JuiceBanana": 2.0, "JuiceWatermelon": 2.0, "Rum": 2.0}, "BraveBull": {"Kahlua": 2.0, "Tequila": 1.0}, "CafeLatte": {"Coffee": 1.0, "Milk": 1.0}, "CubaLibre": {"Cola": 2.0, "Rum": 1.0}, "DoctorsDelight": {"Cream": 1.0, "JuiceLime": 2.0, "JuiceOrange": 2.0, "JuiceTomato": 2.0, "Oxygen": 12.0, "Carbon": 12.0, "Glucose": 12.0, "Silicon": 12.0, "Nitrogen": 12.0, "Potassium": 12.0}, "DriestMartini": {"Gin": 1.0, "Nothing": 1.0}, "ErikaSuprise": {"Ale": 1.0, "Ice": 2.0, "JuiceBanana": 2.0, "JuiceLime": 2.0, "Whiskey": 2.0}, "FourteenLoko": {"Coffee": 1.0, "JuiceLime": 1.0, "Vodka": 1.0}, "GargleBlaster": {"Cognac": 1.0, "Gin": 1.0, "JuiceLime": 1.0, "Vodka": 1.0, "Whiskey": 1.0}, "GinFizz": {"Gin": 1.0, "JuiceLime": 1.0, "SodaWater": 1.0}, "GinTonic": {"Gin": 1.0, "TonicWater": 2.0}, "Goldschlager": {"Gold": 10.0, "Vodka": 1.0}, "Grog": {"Rum": 1.0, "Hydrogen": 2.0, "Oxygen": 2.0}, "IcedCoffee": {"Coffee": 1.0, "Ice": 2.0}, "IcedGreenTea": {"GreenTea": 1.0, "Ice": 2.0}, "IcedTea": {"Ice": 2.0, "Tea": 1.0}, "IrishCarBomb": {"Ale": 2.0, "Cream": 6.0, "Whiskey": 3.0}, "IrishCoffee": {"Coffee": 2.0, "Cream": 6.0, "Whiskey": 3.0}, "IrishCream": {"Cream": 2.0, "Whiskey": 1.0}, "LeanShine": {"Lean": 1.0, "Tequila": 3.0, "Vodka": 3.0, "Whiskey": 3.0}, "Lemonade": {"JuiceLemon": 1.0, "Sugar": 1.0, "Hydrogen": 2.0, "Oxygen": 2.0}, "LemonLime": {"JuiceLemon": 1.0, "JuiceLime": 1.0, "SodaWater": 1.0}, "LongIslandIcedTea": {"Cola": 2.0, "Rum": 1.0, "Gin": 2.0, "Tequila": 2.0, "Vodka": 2.0}, "KiraSpecial": {"JuiceLime": 1.0, "JuiceOrange": 1.0, "SodaWater": 1.0}, "ManlyDorf": {"Ale": 1.0, "Beer": 2.0}, "Martini": {"Gin": 1.0, "Vermouth": 2.0}, "Mojito": {"JuiceLime": 1.0, "Rum": 1.0, "SodaWater": 1.0, "Sugar": 1.0}, "Moonshine": {"Tequila": 1.0, "Vodka": 1.0, "Whiskey": 1.0}, "NukaCola": {"Cola": 1.0, "Uranium": 5.0}, "Patron": {"Tequila": 1.0, "Silver": 10.0}, "Rewriter": {"Coffee": 1.0, "SpaceMountainWind": 1.0}, "ScrewdriverCocktail": {"JuiceOrange": 2.0, "Vodka": 1.0}, "SoyLatte": {"Coffee": 1.0, "MilkSoy": 1.0}, "Starkist": {"Cola": 2.0, "JuiceOrange": 1.0}, "SyndicateBomb": {"Beer": 2.0, "Cola": 6.0, "Whiskey": 3.0}, "TequilaSunrise": {"JuiceOrange": 2.0, "Tequila": 1.0}, "ThreeMileIsland": {"Cola": 6.0, "Rum": 3.0, "Gin": 6.0, "Tequila": 6.0, "Vodka": 6.0, "Uranium": 10.0}, "VodkaMartini": {"Vermouth": 2.0, "Vodka": 1.0}, "WhiskeyCola": {"Cola": 2.0, "Whiskey": 1.0}, "WhiteRussian": {"Kahlua": 6.0, "Vodka": 3.0, "Cream": 4.0}}
+		
+		function addItem(k) {
+			let elem = $("#item-template").clone().removeAttr("id")
+			elem.show()
+			
+			let v = DATA[k]
+			let sum = 0;
+			for (let i = 0; i < Object.keys(v).length; i++) {
+				let ki = Object.keys(v)[i]
+				let vi = v[ki]
+				sum += vi;
+				console.log(k, sum, vi)
+				if (vi == 0) {
+					vi = "(Catalyst) "
+				} else {
+					vi = vi + "u "
+				}
+				let a = $("<li></li>").text(vi + ki).addClass("v-" + k + i)
+				elem.find(".ingredients").append(a)
+			}
+			
+			elem.find(".name").text(sum + "u " + k)
+			elem.addClass("item-" + k).addClass("item")
+			
+			$("#final-list").append(
+				elem
+			)
+		}
+		
+		for (let i = 0; i < Object.keys(DATA).length; i++) {
+			let k = Object.keys(DATA)[i]
+			addItem(k)
+		}
+		function updateList() {
+			let filter = $("#name-filter").val()
+				
+			for (let i = 0; i < Object.keys(DATA).length; i++) {
+				let k = Object.keys(DATA)[i]
+				if (k.toLowerCase().includes(filter.toLowerCase())) {
+					$(".item-" + k).show()
+				} else {
+					$(".item-" + k).hide()
+				}
+			}
+		}
+		updateList()
+	</script>
+</body>
+</html>
